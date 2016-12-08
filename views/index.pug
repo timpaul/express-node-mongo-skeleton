@@ -1,5 +1,14 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+    h1 Jobby
+    h2 Users
+    ul
+        each user in users
+            li                    
+                a(href='/' + user.id ) #{user.name}
+    h2 Jobs
+    ul
+        each job in jobs
+            li                    
+                a(href='/' + job.id ) #{job.title}
