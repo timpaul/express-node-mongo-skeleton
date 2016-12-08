@@ -1,14 +1,8 @@
 extends layout
 
 block content
-    h1 Jobby
-    h2 Users
+    h1 Who's playing?
     ul
         each user in users
             li                    
-                a(href='/' + user.id ) #{user.name}
-    h2 Jobs
-    ul
-        each job in jobs
-            li                    
-                a(href='/' + job.id ) #{job.title}
+                a(href='/user-' + user.id ) #{user.name}

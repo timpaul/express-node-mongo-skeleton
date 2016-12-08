@@ -4,6 +4,7 @@ var express = require('express'),
     logger = require('morgan'),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser');
+    _ = require('underscore');
 
 var db = require('./model/db'),
     blob = require('./model/blobs');

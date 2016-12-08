@@ -39,7 +39,42 @@ var data = {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', data);
+  	res.render('index', data);
+});
+
+/* GET user page. */
+router.get('/user-:userId', function(req, res, next) {
+
+	var pageData = {};
+
+	// Add user data
+  	var userId = parseInt(req.params.userId);
+	var user = _.where(data.users, {id: userId});
+	pageData.user = user[0];
+
+	// Add jobs data
+	pageData.jobs = data.jobs;
+
+  	res.render('user', pageData);
+});
+
+/* GET add job page. */
+router.get('/user-:userId/job-:jobId', function(req, res, next) {
+
+	var pageData = {};
+
+	// Add user data
+  	var userId = parseInt(req.params.userId);
+	var user = _.where(data.users, {id: userId});
+	pageData.user = user[0];
+
+	// Add job data
+  	var jobId = parseInt(req.params.jobId);
+	var job = _.where(data.jobs, {id: jobId});
+	pageData.job = job[0];
+
+  	res.render('job-add', pageData);
+
 });
 
 module.exports = router;

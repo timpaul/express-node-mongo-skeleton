@@ -1,0 +1,9 @@
+extends layout
+
+block content
+    h1= user.name
+    h2 Pick a job
+    ul
+        each job in jobs
+            li                    
+                a(href='/user-' + user.id + '/job-' + job.id ) #{job.title}
