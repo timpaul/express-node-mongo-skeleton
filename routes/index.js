@@ -1,5 +1,7 @@
-var express = require('express');
-var router = express.Router();
+var express = require('express'),
+	router = express.Router(),
+	mongoose = require('mongoose'),
+	Job = mongoose.model('jobs');
 
 
 // Data
@@ -39,7 +41,20 @@ var data = {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  	res.render('index', data);
+
+  	//res.render('index', data);
+
+	Job.find(function(err, jobs){
+
+    	console.log(jobs);
+
+    	var pageData = data;
+    	pageData.history = jobs;
+	    res.render('index', pageData);
+
+  	});
+
+
 });
 
 /* GET user page. */
@@ -79,9 +94,16 @@ router.get('/user-:userId/job-:jobId', function(req, res, next) {
 
 /* POST add job. */
 router.post('/add-job', function(req, res) {
-  console.log(req.body.userId);
-  console.log(req.body.jobId);
-  res.redirect('/');
+
+  new Job({
+  	userId : req.body.userId, 
+  	jobId : req.body.jobId 
+  })
+  .save(function(err, job) {
+    console.log(job)
+    res.redirect('/');
+  });
+  
 });
 
 module.exports = router;

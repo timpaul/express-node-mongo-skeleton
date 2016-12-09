@@ -7,10 +7,11 @@ var express = require('express'),
     _ = require('underscore');
 
 var db = require('./model/db'),
-    blob = require('./model/blobs');
+    job = require('./model/jobs');
+    //blob = require('./model/blobs');
 
-var routes = require('./routes/index'),
-    blobs = require('./routes/blobs');
+var routes = require('./routes/index');
+//    blobs = require('./routes/blobs');
 
 //var users = require('./routes/users');
 
@@ -29,7 +30,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/blobs', blobs);
+//app.use('/blobs', blobs);
 //app.use('/users', users);
 
 // catch 404 and forward to error handler
