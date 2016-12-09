@@ -2,7 +2,7 @@ extends layout
 
 block content
     h1 Who's playing?
-    ul
+    ul.menu
         each user in users
-            li                    
+            li.menu__item                    
                 a(href='/user-' + user.id ) #{user.name}

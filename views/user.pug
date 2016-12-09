@@ -1,9 +1,8 @@
 extends layout
 
 block content
-    h1= user.name
-    p What did you do?
-    ul
+    h1 What did you do #{user.name}?
+    ul.menu
         each job in jobs
-            li                    
-                a(href='/user-' + user.id + '/job-' + job.id ) #{job.title}
+            li.menu__item                    
+                a(href='/user-' + user.id + '/job-' + job.id ) I #{job.title}

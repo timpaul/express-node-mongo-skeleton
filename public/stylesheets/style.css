@@ -1,4 +1,7 @@
 body {
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
   padding: 0 50px;
   font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
@@ -10,3 +13,39 @@ a {
 li{
 	margin-bottom: 5px;
 }
+
+
+.menu{
+	padding-left: 0;
+}
+
+.menu__item{
+	list-style-type: none;
+}
+
+.menu__item a{
+	display: block;
+	padding: 10px;
+	background: #ebebeb;
+	text-decoration: none;
+	color: black;
+}
+
+.menu__item a:hover{
+	background: green;
+	color: white;
+}
+
+button{
+	width: 300px;
+	background: green;
+	color: white;
+	border: 0;
+	padding: 10px 20px;
+	font-size: 20px;
+}
+
+button:hover{
+	cursor: pointer;
+}
+

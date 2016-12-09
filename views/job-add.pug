@@ -3,3 +3,7 @@ extends layout
 block content
     h1= user.name
     h2= job.title
+    form#formAddJob(name="addjob", method="post", action="/add-job")
+        input#inputUser(type="hidden", name="userId", value=user.id)
+        input#inputJob(type="hidden", name="jobId", value=job.id)
+        button#btnSubmit(type="submit") JOB DONE
