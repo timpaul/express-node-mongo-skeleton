@@ -6,8 +6,6 @@ var mongoose = require('mongoose');
 // localhost if we don't find one.
 var uristring =
 process.env.MONGODB_URI ||
-process.env.MONGOLAB_URI ||
-process.env.MONGOHQ_URL ||
 'mongodb://localhost/jobby';
 
 // The http server will listen to an appropriate port, or default to
