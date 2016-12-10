@@ -1,11 +1,12 @@
 extends layout
 
 block content
-    h1.centre You #{job.title}
+    .app-header
+        h1.centre #{user.name} #{job.title}
     form#formAddJob(name="addjob", method="post", action="/add-job")
         input#inputUserId(type="hidden", name="userId", value=user.id)
         input#inputUserName(type="hidden", name="userName", value=user.name)
         input#inputJobId(type="hidden", name="jobId", value=job.id)
         input#inputJobTitle(type="hidden", name="jobTitle", value=job.title)
         input#inputJobPoints(type="hidden", name="jobPoints", value=job.points)
-        button#btnSubmit(type="submit") Mark as done
+        button#btnSubmit(type="submit") Just now

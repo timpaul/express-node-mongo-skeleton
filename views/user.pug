@@ -1,7 +1,8 @@
 extends layout
 
 block content
-    h1.centre #{user.name}
+    .app-header
+        h1.centre #{user.name}
     ul.menu
         each job in jobs
             li.menu__item
