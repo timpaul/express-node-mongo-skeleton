@@ -3,8 +3,10 @@ var express = require('express'),
     favicon = require('serve-favicon'),
     logger = require('morgan'),
     cookieParser = require('cookie-parser'),
-    bodyParser = require('body-parser');
-    _ = require('underscore');
+    bodyParser = require('body-parser'),
+    Sugar = require('sugar');
+    
+var _ = require('underscore');
 
 var db = require('./model/db'),
     job = require('./model/jobs');

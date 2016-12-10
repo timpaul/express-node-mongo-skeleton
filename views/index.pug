@@ -1,12 +1,9 @@
 extends layout
 
 block content
-    h1 Who's playing?
     ul.menu
         each user in users
             li.menu__item                    
                 a(href='/user-' + user.id ) #{user.name}
-    h2 Job history
-    ul
-        for job in history
-            li #{job.userId}, #{job.jobId}
+    p.centre
+        a(href='/stats') Stats

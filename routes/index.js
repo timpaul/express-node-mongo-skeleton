@@ -1,7 +1,8 @@
 var express = require('express'),
 	router = express.Router(),
 	mongoose = require('mongoose'),
-	Job = mongoose.model('jobs');
+	Job = mongoose.model('jobs'),
+	_ = require('underscore');
 
 
 // Data
@@ -32,9 +33,9 @@ var data = {
 		{id: 22, points: 1, title: "cleaned Boris's table"}
 	],
 	users: [
-		{id: 1, name: "Tim"}, 
-		{id: 2, name: "Karen"}, 
-		{id: 3, name: "Alice"}
+		{id: 1, name: "Tim", points: 0}, 
+		{id: 2, name: "Karen", points: 0}, 
+		{id: 3, name: "Alice", points: 0}
 	]
 };
 
@@ -42,20 +43,50 @@ var data = {
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
-  	//res.render('index', data);
+	var pageData = data;
 
+	res.render('index', pageData);
+
+});
+
+
+/* GET stats page. */
+router.get('/stats', function(req, res, next) {
+
+	var pageData = data;
+
+    // Get job history from database
 	Job.find(function(err, jobs){
 
-    	console.log(jobs);
+		// Add job history to page data
+    	pageData.history = _.sortBy(jobs, 'dob').reverse();
 
-    	var pageData = data;
-    	pageData.history = jobs;
-	    res.render('index', pageData);
+    	// Create a job history grouped by user
+		var jobsByUser = _(jobs).groupBy('userName');
+
+
+		// For each user in the job history
+		_.each(jobsByUser, function(user, key) {
+
+			// Sum the points for that user
+			var points = _.reduce(user, function(num, event){
+				return event.jobPoints + num; 
+			}, 0);
+
+			// Add total points to each user in page data
+			_.findWhere(pageData.users, {name: key}).points = points;
+
+		});
+
+		// Sort users by points
+    	pageData.users = _.sortBy(pageData.users, 'points').reverse();
+
+	    res.render('stats', pageData);
 
   	});
 
-
 });
+
 
 /* GET user page. */
 router.get('/user-:userId', function(req, res, next) {
@@ -72,6 +103,7 @@ router.get('/user-:userId', function(req, res, next) {
 
   	res.render('user', pageData);
 });
+
 
 /* GET add job page. */
 router.get('/user-:userId/job-:jobId', function(req, res, next) {
@@ -92,18 +124,23 @@ router.get('/user-:userId/job-:jobId', function(req, res, next) {
 
 });
 
+
 /* POST add job. */
 router.post('/add-job', function(req, res) {
 
-  new Job({
-  	userId : req.body.userId, 
-  	jobId : req.body.jobId 
-  })
-  .save(function(err, job) {
-    console.log(job)
-    res.redirect('/');
-  });
-  
+    // Create new job event and save to db
+    new Job({
+    	userId : req.body.userId, 
+    	userName : req.body.userName, 
+    	jobId : req.body.jobId,
+    	jobTitle : req.body.jobTitle,
+    	jobPoints : req.body.jobPoints   
+    })
+    .save(function(err, job) {
+        console.log(job)
+        res.redirect('/');
+    });
+
 });
 
 module.exports = router;

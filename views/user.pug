@@ -1,8 +1,9 @@
 extends layout
 
 block content
-    h1 What did you do #{user.name}?
+    h1.centre What did you do #{user.name}?
     ul.menu
         each job in jobs
-            li.menu__item                    
+            li.menu__item
+                .points #{job.points}                   
                 a(href='/user-' + user.id + '/job-' + job.id ) I #{job.title}
