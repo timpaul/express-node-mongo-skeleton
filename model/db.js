@@ -1,4 +1,3 @@
-var http = require ('http');
 var mongoose = require('mongoose');
 //mongoose.connect('mongodb://localhost/jobby');
 
