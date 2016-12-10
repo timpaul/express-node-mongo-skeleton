@@ -3,8 +3,7 @@ var express = require('express'),
     favicon = require('serve-favicon'),
     logger = require('morgan'),
     cookieParser = require('cookie-parser'),
-    bodyParser = require('body-parser'),
-    Sugar = require('sugar');
+    bodyParser = require('body-parser');
     
 var _ = require('underscore');
 
@@ -41,6 +40,9 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
+
+// Locals - available from Pug templates
+app.locals.Sugar = require('sugar');
 
 // error handlers
 

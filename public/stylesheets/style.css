@@ -1,8 +1,8 @@
 body {
   max-width: 550px;
-  margin: 0 auto 480px;
+  margin: 0 auto 360px;
   padding: 0 48px;
-  font: 20px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 18px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
@@ -10,7 +10,25 @@ a {
 }
 
 li{
-	margin-bottom: 5px;
+	margin-bottom: 6px;
+}
+
+form{
+	margin: 48px 0;
+}
+
+.nav{
+	margin: 12px 0;
+	padding: 0;
+	text-align: center;
+}
+.nav li{
+	display: inline-block;
+	list-style-type: none;
+}
+.nav li a{
+	display: block;
+	padding: 12px;
 }
 
 .centre{
@@ -66,7 +84,6 @@ button:hover{
 }
 
 .job-history__item{
-	font-size: 18px;
 }
 
 .points{    float: right;

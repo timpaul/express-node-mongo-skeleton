@@ -1,13 +1,14 @@
 extends layout
 
 block content
-    h1 Stats
+    h1 Leaderboard
     ul
         each user in users
-            - var point = "points";
+            - var point = "points"
             - if (user.points === 1) point = "point" 
             li #{user.name} has #{user.points} #{point}
-    h2 Recent jobs
+    h2 Recent activity
     ul.job-history
         for event in history
-            li.job-history__item #{event.userName} #{event.jobTitle} on #{event.dob}
+            - var date = Sugar.Date.relative(event.jobDate)
+            li.job-history__item #{event.userName} #{event.jobTitle} #{date}
