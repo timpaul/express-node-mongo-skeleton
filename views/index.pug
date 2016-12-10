@@ -1,7 +1,10 @@
 extends layout
 
 block content
-    h1.centre Pick a player
+    .app-header
+        h1.centre Jobby
+        p.intro Earn points for doing jobs!
+    h2.centre Who's playing?
     ul.menu
         each user in users
             li.menu__item                    
