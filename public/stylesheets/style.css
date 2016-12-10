@@ -1,7 +1,7 @@
 body {
   max-width: 550px;
   margin: 0 auto 360px;
-  padding: 0 48px;
+  padding: 0 8px;
   font: 18px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -37,7 +37,7 @@ form{
 
 .menu{
 	padding-left: 0;
-	width: 356px;
+	/*width: 356px;*/
     margin: 48px auto;
 }
 
@@ -64,7 +64,7 @@ h1, h2{
 }
 
 button{
-	width: 320px;
+	width: 100%;
 	background: green;
 	color: white;
 	border: 0;
@@ -79,11 +79,19 @@ button:hover{
 }
 
 
-.job-history{
+.job-history,
+.leaderboard{
   	margin: 0 auto;
+  	padding-left: 0;
+}
+
+.job-history__item
+.leaderboard__item{
+  	list-style-type: none;
 }
 
 .job-history__item{
+	font-size: 14px;
 }
 
 .points{    float: right;
