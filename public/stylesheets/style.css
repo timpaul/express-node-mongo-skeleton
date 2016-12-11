@@ -119,3 +119,15 @@ button:hover{
     line-height: 1.5;
     margin: 12px;
 }
+
+table{
+	width: 100%;
+	font-size: 14px;
+    border-collapse: collapse;
+}
+table td{
+	padding: 12px 6px;
+}
+table tr:nth-child(odd){
+	background: #ebebeb;
+}

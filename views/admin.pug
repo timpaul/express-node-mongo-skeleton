@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    .app-header
+        h1.centre Admin
+    h2 Activity
+    a(href='/delete/all-events') Delete all
+    table
+        for event in history
+            - var date = Sugar.Date.format(event.jobDate, '%x %X')
+            tr
+                td #{event.userName} 
+                td #{event.jobTitle} 
+                td #{date}
+                td
+                    a(href='/delete/event-' + event._id) Delete

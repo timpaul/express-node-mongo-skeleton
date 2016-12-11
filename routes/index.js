@@ -110,4 +110,40 @@ router.post('/add-job', function(req, res) {
 
 });
 
+
+/* GET admin page. */
+router.get('/admin', function(req, res, next) {
+
+	var pageData = data;
+
+    // Get job history from database
+	Job.find(function(err, jobs){
+
+		// Add job history to page data
+    	pageData.history = _.sortBy(jobs, 'jobDate').reverse();
+
+	    res.render('admin', pageData);
+
+  	});
+
+});
+
+/* Delete an event. */
+router.get('/delete/event-:eventId', function(req, res, next) {
+
+	Job.findByIdAndRemove(req.params.eventId, function (err, job) {
+	    res.redirect('/admin');
+	});
+
+});
+
+/* Delete ALL events. */
+router.get('/delete/all-events', function(req, res, next) {
+
+	Job.remove({}, function (err, job) {
+	    res.redirect('/admin');
+	});
+
+});
+
 module.exports = router;

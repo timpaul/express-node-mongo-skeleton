@@ -1,7 +1,9 @@
 extends layout
 
 block content
-    h1 Leaderboard
+    .app-header
+        h1.centre Stats
+    h2 Leaderboard
     ul.leaderboard
         each user in users
             - var point = "points"
