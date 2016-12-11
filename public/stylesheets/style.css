@@ -180,3 +180,17 @@ table tr td{
 	font-size:	48px;
 	font-weight: bold;
 }
+
+.back-button{
+	display: block;
+	text-align: center;
+    width: 70px;
+    height: 70px;
+    background: #ebebeb;
+    margin: 48px auto;
+    border-radius: 50px;
+    line-height: 3.8;
+    text-decoration: none;
+    font-weight: bold;
+    color: #333;
+}
