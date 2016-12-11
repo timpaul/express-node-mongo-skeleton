@@ -17,7 +17,7 @@ block content
                         .points= user.points
                         .name= user.name
         if history[0]
-            ul.job-history
+            ul.job-history.centre
                 for event in history
                     - var date = Sugar.Date.relative(event.jobDate)
                     li.job-history__item #{event.userName} #{event.jobTitle} #{date}

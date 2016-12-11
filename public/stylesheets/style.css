@@ -210,14 +210,16 @@ table tr td{
 }
 
 .scores{
-	margin: 0 -12px;
+    margin: 0 -12px;
     background: #ebebeb;
-    padding: 12px 0;
+    padding: 3px 0;
 }
 
 .scores h2{
-	margin: 12px 0 24px;
+    margin: 0 0 24px;
     font-size: 16px;
     text-transform: uppercase;
     color: #AAA;
+    border-top: 3px solid white;
+    padding-top: 12px;
 }
