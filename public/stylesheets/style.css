@@ -4,12 +4,7 @@ body {
   padding: 0;
   font-size: 18px;
   /*font-family: "Lucida Grande", Helvetica, Arial, sans-serif;*/
-  font-family: 'Rubik', cursive;
-  background: #ebebeb;
-}
-
-.content{
-	background: #FFF;
+  font-family: 'Quicksand', cursive;
 }
 
 a {
@@ -36,6 +31,17 @@ hr{
 
 .app-header h1{
 	margin-top: 24px;
+}
+
+.app-header.fixed{
+    position: fixed;
+    width: 100%;
+    padding: 12px 0;
+    top: 0;
+}
+
+.app-header.fixed + .main{
+	padding-top: 90px;
 }
 
 .main{
