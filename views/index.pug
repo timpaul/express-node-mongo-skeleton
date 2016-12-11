@@ -4,8 +4,9 @@ block content
     .app-header
         h1.centre Jobby
         p.intro Earn points for doing jobs!
-    h2.centre Who's playing?
-    ul.menu
-        each user in users
-            li.menu__item                    
-                a(href='/user-' + user.id ) #{user.name}
+    .main
+        h2.centre Who's playing?
+        ul.menu
+            each user in users
+                li.menu__item                    
+                    a(href='/user-' + user.id ) #{user.name}

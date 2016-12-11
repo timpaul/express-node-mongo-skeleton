@@ -1,8 +1,13 @@
 body {
   max-width: 550px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0;
   font: 18px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: #ebebeb;
+}
+
+.content{
+	background: #FFF;
 }
 
 a {
@@ -10,18 +15,29 @@ a {
 }
 
 li{
-	margin-bottom: 6px;
+	margin-bottom: 12px;
 }
 
 form{
 	margin: 48px 0;
 }
 
+hr{
+	border: 1px solid grey;
+}
+
 .app-header{
 	background: #333;
 	color: white;
 	padding: 12px 24px 24px;
-	margin: -24px;
+}
+
+.app-header h1{
+	margin-top: 24px;
+}
+
+.main{
+	margin: 0 12px;
 }
 
 .intro{
@@ -36,6 +52,7 @@ form{
 }
 .nav li{
 	display: inline-block;
+	width: 33%;
 	list-style-type: none;
 }
 .nav li a{
@@ -49,7 +66,7 @@ form{
 
 .menu{
 	padding-left: 0;
-    margin: 48px auto;
+    margin: 12px 0;
 }
 
 .menu__item{
