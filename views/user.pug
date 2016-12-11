@@ -1,11 +1,14 @@
 extends layout
 
 block content
+    - var user = _.where(users, {id: currentUserId})[0];
     .app-header
         h1.centre #{user.name}
     .main
+        - var point = "points"
+        - if (user.points === 1) point = "point"
+        h2.centre You have #{user.points} #{point}
+        br
         ul.menu
-            each job in jobs
-                li.menu__item
-                    .points #{job.points}                   
-                    a(href='/user-' + user.id + '/job-' + job.id ) #{job.title}
+                li.menu__item                  
+                    a.green(href='/user-' + currentUserId + '/job-list' ) Add a job

@@ -1,0 +1,11 @@
+extends layout
+
+block content
+    .app-header
+        h1.centre What did you do?
+    .main
+        ul.menu
+            each job in jobs
+                li.menu__item
+                    .points #{job.points}                   
+                    a(href='/user-' + user.id + '/job-' + job.id ) I #{job.title}

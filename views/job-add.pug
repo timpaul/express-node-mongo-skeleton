@@ -2,12 +2,15 @@ extends layout
 
 block content
     .app-header
-        h1.centre #{user.name} #{job.title}
+        - var point = "points"
+        - if (job.points === 1) point = "point" 
+        h1.centre I #{job.title} 
     .main
+        h2.centre for #{job.points} #{point}
         form#formAddJob(name="addjob", method="post", action="/add-job")
             input#inputUserId(type="hidden", name="userId", value=user.id)
             input#inputUserName(type="hidden", name="userName", value=user.name)
             input#inputJobId(type="hidden", name="jobId", value=job.id)
             input#inputJobTitle(type="hidden", name="jobTitle", value=job.title)
             input#inputJobPoints(type="hidden", name="jobPoints", value=job.points)
-            button#btnSubmit(type="submit") Just now
+            button#btnSubmit(type="submit") Add this job

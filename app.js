@@ -41,6 +41,7 @@ app.use(function(req, res, next) {
 
 // Locals - available from Pug templates
 app.locals.Sugar = require('sugar');
+app.locals._ = require('underscore');
 
 // error handlers
 

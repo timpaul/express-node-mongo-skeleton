@@ -38,6 +38,7 @@ hr{
 
 .main{
 	margin: 0 12px;
+    min-height: 600px;
 }
 
 .intro{
@@ -85,6 +86,11 @@ hr{
 .menu__item a:hover{
 	background: green;
 	color: white;
+}
+
+.green{
+	background: green !important;
+	color: white !important;
 }
 
 h1, h2{
