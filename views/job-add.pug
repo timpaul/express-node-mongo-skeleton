@@ -12,8 +12,6 @@ block content
         - if (job.points === 1) point = "point" 
         h1.centre When did you do it?
     .main
-        h2.centre I #{job.title}
-        br
         form(name="addjob", method="post", action="/add-job")
             + hiddenFields
             input(type="hidden", name="jobDate", value=Sugar.Date.create('now'))
@@ -26,4 +24,4 @@ block content
             + hiddenFields
             input(type="hidden", name="jobDate", value=Sugar.Date.create('yesterday'))
             button(type="submit") Yesterday
-    a.back-button(href='/user-' + user.id + '/job-list') Back
+        a.back-button(href='/user-' + user.id + '/job-list') Back
