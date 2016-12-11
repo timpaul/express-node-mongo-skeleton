@@ -182,7 +182,7 @@ table tr td{
     font-size: 28px;
     margin: 18px 0 18px;
     font-weight: bold;
-    color: white;
+    color: #333;
 }
 
 .user .name{
@@ -224,6 +224,5 @@ table tr td{
     font-size: 16px;
     text-transform: uppercase;
     color: #AAA;
-    border-top: 3px solid white;
     padding-top: 12px;
 }
