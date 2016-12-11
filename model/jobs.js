@@ -6,7 +6,7 @@ var JobSchema = new mongoose.Schema({
     jobPoints : Number,
     userId : Number,
     userName : String,
-  	jobDate: { type: Date, default: Date.now }
+  	jobDate: Date
 });
 
 mongoose.model('jobs', JobSchema);

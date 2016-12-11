@@ -144,7 +144,8 @@ router.post('/add-job', function(req, res) {
     	userName : req.body.userName, 
     	jobId : req.body.jobId,
     	jobTitle : req.body.jobTitle,
-    	jobPoints : req.body.jobPoints   
+    	jobPoints : req.body.jobPoints,
+    	jobDate : req.body.jobDate  
     })
     .save(function(err, job) {
         console.log(job)

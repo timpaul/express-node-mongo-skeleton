@@ -16,10 +16,13 @@ block content
         br
         form(name="addjob", method="post", action="/add-job")
             + hiddenFields
+            input(type="hidden", name="jobDate", value=Sugar.Date.create('now'))
             button.green(type="submit") Just now
         form(name="addjob", method="post", action="/add-job")
             + hiddenFields
+            input(type="hidden", name="jobDate", value=Sugar.Date.create('today'))
             button(type="submit") Earlier today
         form(name="addjob", method="post", action="/add-job")
             + hiddenFields
+            input(type="hidden", name="jobDate", value=Sugar.Date.create('yesterday'))
             button(type="submit") Yesterday
