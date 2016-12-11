@@ -16,7 +16,7 @@ li{
 }
 
 form{
-	margin: 48px 0;
+	margin: 12px 0;
 }
 
 hr{
@@ -109,13 +109,14 @@ h1, h2{
 
 button{
 	width: 100%;
-	background: green;
-	color: white;
+	background: #ebebeb;
 	border: 0;
 	padding: 10px 20px;
 	font-size: 20px;
+	font-weight: bold;
     margin: 0 auto;
     display: block;
+    font-family: 'Quicksand', cursive;
 }
 
 button:hover{

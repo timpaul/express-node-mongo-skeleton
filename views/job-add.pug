@@ -1,21 +1,25 @@
 extends layout
 
 block content
+    mixin hiddenFields
+        input(type="hidden", name="userId", value=user.id)
+        input(type="hidden", name="userName", value=user.name)
+        input(type="hidden", name="jobId", value=job.id)
+        input(type="hidden", name="jobTitle", value=job.title)
+        input(type="hidden", name="jobPoints", value=job.points)
     .app-header
         - var point = "points"
         - if (job.points === 1) point = "point" 
         h1.centre When did you do it?
     .main
         h2.centre I #{job.title}
-        form#formAddJob(name="addjob", method="post", action="/add-job")
-            input#inputUserId(type="hidden", name="userId", value=user.id)
-            input#inputUserName(type="hidden", name="userName", value=user.name)
-            input#inputJobId(type="hidden", name="jobId", value=job.id)
-            input#inputJobTitle(type="hidden", name="jobTitle", value=job.title)
-            input#inputJobPoints(type="hidden", name="jobPoints", value=job.points)
-            button#btnSubmit(type="submit") Just now
-            ul.menu
-                li.menu__item
-                    a(href='/') Earlier today
-                li.menu__item
-                    a(href='/') Yesterday
+        br
+        form(name="addjob", method="post", action="/add-job")
+            + hiddenFields
+            button.green(type="submit") Just now
+        form(name="addjob", method="post", action="/add-job")
+            + hiddenFields
+            button(type="submit") Earlier today
+        form(name="addjob", method="post", action="/add-job")
+            + hiddenFields
+            button(type="submit") Yesterday
