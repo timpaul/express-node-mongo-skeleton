@@ -2,7 +2,9 @@ body {
   max-width: 550px;
   margin: 0 auto;
   padding: 0;
-  font: 18px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font-size: 18px;
+  /*font-family: "Lucida Grande", Helvetica, Arial, sans-serif;*/
+  font-family: 'Quicksand', cursive;
   background: #ebebeb;
 }
 
