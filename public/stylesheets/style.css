@@ -72,6 +72,9 @@ hr{
 .centre{
 	text-align: center !important;
 }
+.left{
+	text-align: left !important;
+}
 
 .menu{
 	padding-left: 0;
@@ -171,14 +174,18 @@ table tr td{
 .user{
 	flex: 1;
     text-align: center;
-    background: #ebebeb;
     padding: 12px;
-    margin: 0 6px;
+    
+    margin: 12px 5px 0;
+    background: url(/star-3.png) no-repeat 50% -7px;
+    background-size: 79%;
 }
 
 .user .points{
-	font-size:	48px;
+	font-size:	32px;
+    margin: 7px 0 18px;
 	font-weight: bold;
+    color: #555;
 }
 
 .back-button{
@@ -193,4 +200,12 @@ table tr td{
     text-decoration: none;
     font-weight: bold;
     color: #333;
+}
+.star{    
+    float: right;
+    width: 28px;
+    margin-top: 8px;
+}
+.star:first-child(){
+    margin-right: 4px;	
 }
