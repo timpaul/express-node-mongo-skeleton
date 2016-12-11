@@ -103,6 +103,7 @@ hr{
 .green{
 	background: green !important;
 	color: white !important;
+	border-bottom: 3px solid darkgreen;
 }
 
 h1, h2{
