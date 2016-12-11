@@ -25,7 +25,7 @@
 		{"id": 22, "points": 1, "title": "cleaned Boris's table"}
 	],
 	"users": [
-		{"id": 1, "name": "Tim", "points": 0}, 
+		{"id": 1, "name": "Tim", "points": 0, "admin": true}, 
 		{"id": 2, "name": "Karen", "points": 0}, 
 		{"id": 3, "name": "Alice", "points": 0}
 	]

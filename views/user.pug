@@ -21,3 +21,9 @@ block content
                 for event in history
                     - var date = Sugar.Date.relative(event.jobDate)
                     li.job-history__item #{event.userName} #{event.jobTitle} #{date}
+    if user.admin
+        br
+        hr
+        ul.nav
+            li
+                a(href='/admin') Admin
