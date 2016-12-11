@@ -174,7 +174,7 @@ table tr td{
 	flex: 1;
     text-align: center;
     padding: 12px;
-    background: url(/star-3.png) no-repeat 50% -7px;
+    background: url(/star3.png) no-repeat 50% -7px;
     background-size: 100px;
 }
 
@@ -182,6 +182,7 @@ table tr td{
     font-size: 28px;
     margin: 18px 0 18px;
     font-weight: bold;
+    color: white;
 }
 
 .user .name{
