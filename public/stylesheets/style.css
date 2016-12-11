@@ -132,8 +132,9 @@ button:hover{
   	padding-left: 0;
 }
 
-.job-history{
-    margin: 0 -12px;
+.job-history{    
+	margin: 3px -12px;
+    border-top: 3px solid #ebebeb;
 }
 
 .job-history__item,
