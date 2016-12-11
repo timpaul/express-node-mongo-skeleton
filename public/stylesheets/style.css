@@ -143,10 +143,11 @@ button:hover{
 	font-size: 14px;
 	padding: 12px;
 	margin: 0;
+	border-bottom: 1px solid #ebebeb;
 }
 
-.job-history__item:nth-child(even){
-	background: #ebebeb;
+.job-history__item:last-child(){
+	border: none;
 }
 
 table{
@@ -157,8 +158,8 @@ table{
 table td{
 	padding: 12px 6px;
 }
-table tr:nth-child(odd){
-	background: #ebebeb;
+table tr td{
+	border-bottom: 1px solid #ebebeb;
 }
 
 .users{

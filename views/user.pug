@@ -15,7 +15,8 @@ block content
                 li.menu__item                  
                     a.green(href='/user-' + currentUserId + '/job-list' ) Add a job
         br
-        ul.job-history
-            for event in history
-                - var date = Sugar.Date.relative(event.jobDate)
-                li.job-history__item #{event.userName} #{event.jobTitle} #{date}
+        if history[0]
+            ul.job-history
+                for event in history
+                    - var date = Sugar.Date.relative(event.jobDate)
+                    li.job-history__item #{event.userName} #{event.jobTitle} #{date}
