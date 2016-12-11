@@ -6,15 +6,16 @@ block content
         h1.centre Jobby
         p.intro Do jobs. Earn stars.
     .main
-        .users
-            for user in users
-                .user
-                    .points= user.points
-                    .name= user.name
         ul.menu
                 li.menu__item                  
-                    a.green(href='/user-' + currentUserId + '/job-list' ) Add a job
-        br
+                    a.green(href='/user-' + currentUserId + '/job-list' ) Log a job
+        .scores
+            h2.centre Last 7 days
+            .users
+                for user in users
+                    .user
+                        .points= user.points
+                        .name= user.name
         if history[0]
             ul.job-history
                 for event in history

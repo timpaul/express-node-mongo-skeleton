@@ -133,9 +133,7 @@ button:hover{
 }
 
 .job-history{
-	border-top: 1px solid grey;
-	border-bottom: 1px solid grey;
-	margin: 24px -12px;
+    margin: 0 -12px;
 }
 
 .job-history__item,
@@ -169,23 +167,24 @@ table tr td{
 .users{
 	display: flex;
   	justify-content: space-between;
-    margin: 12px -6px;
+    margin: 12px -6px 0;
 }
 .user{
 	flex: 1;
     text-align: center;
     padding: 12px;
-    
-    margin: 12px 5px 0;
     background: url(/star-3.png) no-repeat 50% -7px;
-    background-size: 79%;
+    background-size: 100px;
 }
 
 .user .points{
-	font-size:	32px;
-    margin: 7px 0 18px;
-	font-weight: bold;
-    color: #555;
+    font-size: 28px;
+    margin: 18px 0 18px;
+    font-weight: bold;
+}
+
+.user .name{
+    padding-top: 12px;
 }
 
 .back-button{
@@ -199,7 +198,6 @@ table tr td{
     line-height: 3.8;
     text-decoration: none;
     font-weight: bold;
-    color: #333;
 }
 .star{    
     float: right;
@@ -208,4 +206,17 @@ table tr td{
 }
 .star:first-child(){
     margin-right: 4px;	
+}
+
+.scores{
+	margin: 0 -12px;
+    background: #ebebeb;
+    padding: 12px 0;
+}
+
+.scores h2{
+	margin: 12px 0 24px;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: #AAA;
 }
