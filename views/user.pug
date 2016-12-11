@@ -7,11 +7,10 @@ block content
         p.intro Earn points for doing jobs!
     .main
         .users
-        for user in users
-            .user
-                .points= user.points
-                .name= user.name
-        br
+            for user in users
+                .user
+                    .points= user.points
+                    .name= user.name
         ul.menu
                 li.menu__item                  
                     a.green(href='/user-' + currentUserId + '/job-list' ) Add a job
