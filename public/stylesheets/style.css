@@ -104,6 +104,7 @@ hr{
 	background: green !important;
 	color: white !important;
 	border-bottom: 3px solid darkgreen;
+    border-radius: 6px;
 }
 
 h1, h2{
