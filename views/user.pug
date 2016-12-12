@@ -1,7 +1,6 @@
 extends layout
 
 block content
-    - var user = _.where(users, {id: currentUserId})[0];
     .app-header
         h1.centre Jobby
         p.intro Do jobs. Earn stars.
@@ -20,8 +19,10 @@ block content
             ul.job-history.centre
                 for event in history
                     - var date = Sugar.Date.relative(event.jobDate)
-                    li.job-history__item #{event.userName} #{event.jobTitle} #{date}
-    if user.admin
+                    - var userName = _.find(users, {id: event.userId}).name
+                    li.job-history__item #{userName} #{event.jobTitle} #{date}
+    - var currentUser = _.find(users, {id: currentUserId});
+    if currentUser.admin
         br
         hr
         ul.nav

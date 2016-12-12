@@ -1,12 +1,19 @@
 var mongoose = require('mongoose');
 
-var JobSchema = new mongoose.Schema({
+var EventSchema = new mongoose.Schema({
     jobId : Number,
     jobTitle : String,
     jobPoints : Number,
     userId : Number,
-    userName : String,
   	jobDate: Date
 });
 
-mongoose.model('jobs', JobSchema);
+var UserSchema = new mongoose.Schema({
+    userId : Number,
+    userName : String,
+    userPoints : Number,
+    userAdmin : Boolean
+});
+
+mongoose.model('events', EventSchema);
+mongoose.model('users', UserSchema);
