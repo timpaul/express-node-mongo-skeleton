@@ -15,21 +15,21 @@ var	data = require('../data/data.json');
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
+	var pageData = {};
 
-	var pageData = data;
-
-	console.log(pageData);
-
-	res.render('index', pageData);
-	/*
+	// Get user data from db
 	User.find(function(err, users){
-		console.log(users);
-	    res.render('index', users);
+
+		pageData.users = users;
+
+		// Render page
+	    res.render('index', pageData);
 
   	});
-	*/
 
 });
+
+
 
 
 /* GET user job list page. */
@@ -38,15 +38,27 @@ router.get('/user-:userId/job-list', function(req, res, next) {
 
 	var pageData = {};
 
-	// Add user data
-  	var userId = parseInt(req.params.userId);
-	var user = _.where(data.users, {userId: userId});
-	pageData.user = user[0];
 
-	// Add jobs data
-	pageData.jobs = data.jobs;
+	// Get user data from db
+	User.find(function(err, users){
 
-  	res.render('job-list', pageData);
+		var userId = parseInt(req.params.userId);
+		var user = _.find(users, {userId: userId});
+
+		pageData.user = user;
+	    
+  	}).exec()
+
+	// Get job data from db
+	Job.find(function(err, jobs){
+
+		pageData.jobs = jobs;
+
+		// Render page
+		res.render('job-list', pageData);
+	    
+  	});
+
 });
 
 
@@ -55,8 +67,6 @@ router.get('/user-:userId/job-list', function(req, res, next) {
 router.get('/user-:userId', function(req, res, next) {
 
 	var pageData = require('../data/data.json');
-
-	console.log(pageData);
 
 	pageData.currentUserId = parseInt(req.params.userId);
 
@@ -156,7 +166,7 @@ router.get('/admin', function(req, res, next) {
 /* Delete an event */
 router.get('/delete/event-:eventId', function(req, res, next) {
 
-	Event.findByIdAndRemove(req.params.eventId, function (err, job) {
+	Event.findByIdAndRemove(req.params.eventId, function (err) {
 	    res.redirect('/admin');
 	});
 
@@ -167,7 +177,8 @@ router.get('/delete/event-:eventId', function(req, res, next) {
 router.get('/delete/all', function(req, res, next) {
 
 	// Remove all events
-	Event.remove({}, function (err, job) {
+	Event.remove({}, function (err) {
+		if (err) return res.send(500, { error: err });
 	    res.redirect('/admin');
 	});
 
@@ -182,9 +193,8 @@ router.get('/load-defaults', function(req, res, next) {
 
 	// Create users from data.json
 	.then(function(user){
-		User.create(data.users, function (err, userx) {
+		User.create(data.users, function (err) {
 		    if (err) return res.send(500, { error: err });
-		    return res.send("succesfully saved");
 		});
 	});
 
@@ -193,9 +203,9 @@ router.get('/load-defaults', function(req, res, next) {
 
 	// Create jobs from data.json
 	.then(function(job){
-		Job.create(data.jobs, function (err, userx) {
+		Job.create(data.jobs, function (err) {
 		    if (err) return res.send(500, { error: err });
-		    return res.send("succesfully saved");
+	    	res.redirect('/');
 		});
 	});
 

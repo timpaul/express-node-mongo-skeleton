@@ -3,8 +3,7 @@ body {
   margin: 0 auto;
   padding: 0;
   font-size: 18px;
-  /*font-family: "Lucida Grande", Helvetica, Arial, sans-serif;*/
-  font-family: 'Quicksand', cursive;
+  font-family: 'Quicksand', "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
@@ -136,7 +135,6 @@ button:hover{
 
 .job-history{    
 	margin: 3px -12px;
-    border-top: 36px solid #ebebeb;
 }
 
 .job-history__item,
