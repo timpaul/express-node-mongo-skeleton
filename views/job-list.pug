@@ -1,17 +1,12 @@
 extends layout
 
 block content
-    mixin points(times)
-        .stars
-            each i in new Array(times)
-                img.star(src="/star3.png")
     .app-header.fixed
         h1.centre What did you do?
     .main
         ul.menu
             each job in jobs
-                li.menu__item.left  
-                    +points(job.points)               
-                    a(href='/user-' + user.id + '/job-' + job.id ) I #{job.title}
+                li.menu__item.left              
+                    a(href='/user-' + user.userId + '/job-' + job.id ) I #{job.title}
 
-        a.back-button(href='/user-' + user.id) Back
+        a.back-button(href='/user-' + user.userId) Back

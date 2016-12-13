@@ -8,13 +8,9 @@ var express = require('express'),
 var _ = require('underscore');
 
 var db = require('./model/db'),
-    job = require('./model/jobs');
-    //blob = require('./model/blobs');
+    job = require('./model/schemas');
 
 var routes = require('./routes/index');
-//    blobs = require('./routes/blobs');
-
-//var users = require('./routes/users');
 
 var app = express();
 

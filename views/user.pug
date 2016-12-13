@@ -10,8 +10,8 @@ block content
             .users
                 for user in users
                     .user
-                        .points= user.points
-                        .name= user.name                       
+                        .points= user.userPoints
+                        .name= user.userName                       
         ul.menu
                 li.menu__item                  
                     a.green(href='/user-' + currentUserId + '/job-list' ) Log a job
@@ -19,10 +19,10 @@ block content
             ul.job-history.centre
                 for event in history
                     - var date = Sugar.Date.relative(event.jobDate)
-                    - var userName = _.find(users, {id: event.userId}).name
+                    - var userName = _.find(users, {userId: event.userId}).userName
                     li.job-history__item #{userName} #{event.jobTitle} #{date}
-    - var currentUser = _.find(users, {id: currentUserId});
-    if currentUser.admin
+    - var currentUser = _.find(users, {userId: currentUserId});
+    if currentUser.userAdmin
         br
         hr
         ul.nav

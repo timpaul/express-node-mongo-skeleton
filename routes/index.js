@@ -1,68 +1,46 @@
 var express = require('express'),
 	router = express.Router(),
 	mongoose = require('mongoose'),
-	Event = mongoose.model('events'),
 	_ = require('underscore');
 
+var	Event = mongoose.model('events'),
+	Job = mongoose.model('jobs'),
+	User = mongoose.model('users');
+
 // Load data
+
 var	data = require('../data/data.json');
 
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
 
+
 	var pageData = data;
+
+	console.log(pageData);
 
 	res.render('index', pageData);
-
-});
-
-
-/* GET stats page. */
-router.get('/stats', function(req, res, next) {
-
-	var pageData = data;
-
-    // Get job history from event database
-	Event.find(function(err, jobs){
-
-		// Add job history to page data
-    	pageData.history = _.sortBy(jobs, 'jobDate').reverse();
-
-    	// Create a job history grouped by user
-		var jobsByUser = _(jobs).groupBy('userName');
-
-		// For each user in the job history
-		_.each(jobsByUser, function(user, key) {
-
-			// Sum the points for that user
-			var points = _.reduce(user, function(num, event){
-				return event.jobPoints + num; 
-			}, 0);
-
-			// Add total points to each user in page data
-			_.findWhere(pageData.users, {name: key}).points = points;
-
-		});
-
-		// Sort users by points
-    	pageData.users = _.sortBy(pageData.users, 'points').reverse();
-
-	    res.render('stats', pageData);
+	/*
+	User.find(function(err, users){
+		console.log(users);
+	    res.render('index', users);
 
   	});
+	*/
 
 });
 
 
 /* GET user job list page. */
+
 router.get('/user-:userId/job-list', function(req, res, next) {
 
 	var pageData = {};
 
 	// Add user data
   	var userId = parseInt(req.params.userId);
-	var user = _.where(data.users, {id: userId});
+	var user = _.where(data.users, {userId: userId});
 	pageData.user = user[0];
 
 	// Add jobs data
@@ -73,9 +51,12 @@ router.get('/user-:userId/job-list', function(req, res, next) {
 
 
 /* GET user page. */
+
 router.get('/user-:userId', function(req, res, next) {
 
-	var pageData = data;
+	var pageData = require('../data/data.json');
+
+	console.log(pageData);
 
 	pageData.currentUserId = parseInt(req.params.userId);
 
@@ -91,20 +72,21 @@ router.get('/user-:userId', function(req, res, next) {
 		// For each user in the job history
 		_.each(jobsByUser, function(user, key) {
 
-			// Sum the points for that user
-			var points = _.reduce(user, function(num, event){
-				return event.jobPoints + num;
+			// For each job event in their history
+			var userPoints = _.reduce(user, function(num, event){
+
+				// Find the points associated with that job
+				var jobPoints = _.find(pageData.jobs, {id: parseInt(event.jobId)}).points
+
+				// Sum the points for that user
+				return jobPoints + num;
+
 			}, 0);
 
-			var userId = parseInt(key);
-
 			// Add total points to each user in page data
-			_.findWhere(pageData.users, {id: userId}).points = points;
+			_.findWhere(pageData.users, {userId: parseInt(key)}).userPoints = userPoints;
 
 		});
-
-
-    	console.log(pageData);
 
 		// Sort users by points
     	pageData.users = _.sortBy(pageData.users, 'points').reverse();
@@ -123,7 +105,7 @@ router.get('/user-:userId/job-:jobId', function(req, res, next) {
 
 	// Add user data
   	var userId = parseInt(req.params.userId);
-	var user = _.where(data.users, {id: userId});
+	var user = _.where(data.users, {userId: userId});
 	pageData.user = user[0];
 
 	// Add job data
@@ -144,11 +126,9 @@ router.post('/add-job', function(req, res) {
     	userId : req.body.userId,
     	jobId : req.body.jobId,
     	jobTitle : req.body.jobTitle,
-    	jobPoints : req.body.jobPoints,
     	jobDate : req.body.jobDate  
     })
     .save(function(err, job) {
-        console.log(job)
         res.redirect('/user-' + job.userId);
     });
 
@@ -173,7 +153,7 @@ router.get('/admin', function(req, res, next) {
 });
 
 
-/* Delete an event. */
+/* Delete an event */
 router.get('/delete/event-:eventId', function(req, res, next) {
 
 	Event.findByIdAndRemove(req.params.eventId, function (err, job) {
@@ -183,13 +163,30 @@ router.get('/delete/event-:eventId', function(req, res, next) {
 });
 
 
-/* Delete ALL events. */
-router.get('/delete/all-events', function(req, res, next) {
-	var pageData = {};
+/* Delete all events */
+router.get('/delete/all', function(req, res, next) {
+
+	// Remove all events
 	Event.remove({}, function (err, job) {
 	    res.redirect('/admin');
 	});
 
 });
+
+
+/* Load defaults */
+router.get('/load-defaults', function(req, res, next) {
+
+	var users = data.users;
+
+	User.create(users, function (err, userx) {
+	    if (err) return res.send(500, { error: err });
+	    return res.send("succesfully saved");
+	});
+
+});
+
+
+
 
 module.exports = router;

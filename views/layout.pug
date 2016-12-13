@@ -16,6 +16,12 @@ html
         link(rel='manifest' href='/manifest.json')
         title= title
     body
+
+        mixin stars(times)
+            .stars
+                each i in new Array(times)
+                    img.star(src="/star3.png")
+
         block content
         script(type='text/javascript' src='/zepto.min.js')
         script(type='text/javascript' src='/waypoints-0.0.1.min.js')
