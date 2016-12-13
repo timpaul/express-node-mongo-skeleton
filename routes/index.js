@@ -66,9 +66,18 @@ router.get('/user-:userId/job-list', function(req, res, next) {
 
 router.get('/user-:userId', function(req, res, next) {
 
+	//var pageData = {};
+
 	var pageData = require('../data/data.json');
 
 	pageData.currentUserId = parseInt(req.params.userId);
+
+	// Get job data from db
+	Job.find(function(err, jobs){
+
+		pageData.jobs = jobs;
+	    
+  	}).exec()
 
 	// Get event history from database
 	Event.find(function(err, events){
@@ -97,9 +106,6 @@ router.get('/user-:userId', function(req, res, next) {
 			_.findWhere(pageData.users, {userId: parseInt(key)}).userPoints = userPoints;
 
 		});
-
-		// Sort users by points
-    	pageData.users = _.sortBy(pageData.users, 'points').reverse();
 
 	    res.render('user', pageData);
 
