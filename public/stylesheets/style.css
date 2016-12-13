@@ -138,6 +138,11 @@ button:hover{
 	border-top: 1px solid #ebebeb;    
 	max-height: 220px;
     overflow-y: scroll;
+    
+    position: absolute;
+    bottom: 0;
+    top: 400px;
+    width: 100%;
 }
 
 .job-history__item,
