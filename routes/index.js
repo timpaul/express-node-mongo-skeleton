@@ -177,11 +177,26 @@ router.get('/delete/all', function(req, res, next) {
 /* Load defaults */
 router.get('/load-defaults', function(req, res, next) {
 
-	var users = data.users;
+	// Delete users from db
+	User.remove({}).exec()
 
-	User.create(users, function (err, userx) {
-	    if (err) return res.send(500, { error: err });
-	    return res.send("succesfully saved");
+	// Create users from data.json
+	.then(function(user){
+		User.create(data.users, function (err, userx) {
+		    if (err) return res.send(500, { error: err });
+		    return res.send("succesfully saved");
+		});
+	});
+
+	// Delete jobs from db
+	Job.remove({}).exec()
+
+	// Create jobs from data.json
+	.then(function(job){
+		Job.create(data.jobs, function (err, userx) {
+		    if (err) return res.send(500, { error: err });
+		    return res.send("succesfully saved");
+		});
 	});
 
 });
