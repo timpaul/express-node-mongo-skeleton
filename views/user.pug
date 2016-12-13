@@ -16,11 +16,12 @@ block content
                 li.menu__item                  
                     a.green(href='/user-' + currentUserId + '/job-list' ) Log a job
         if history[0]
-            ul.job-history.centre
+            ul.job-history
                 for event in history
                     - var date = Sugar.Date.relative(event.jobDate)
                     - var userName = _.find(users, {userId: event.userId}).userName
-                    li.job-history__item #{userName} #{event.jobTitle} #{date}
+                    li.job-history__item #{userName} #{event.jobTitle}
+                        span.date #{date}
     - var currentUser = _.find(users, {userId: currentUserId});
     if currentUser.userAdmin
         br
