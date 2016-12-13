@@ -76,7 +76,7 @@ router.get('/user-:userId', function(req, res, next) {
 			var userPoints = _.reduce(user, function(num, event){
 
 				// Find the points associated with that job
-				var jobPoints = _.find(pageData.jobs, {id: parseInt(event.jobId)}).points
+				var jobPoints = _.find(pageData.jobs, {jobId: parseInt(event.jobId)}).jobPoints
 
 				// Sum the points for that user
 				return jobPoints + num;
@@ -110,7 +110,7 @@ router.get('/user-:userId/job-:jobId', function(req, res, next) {
 
 	// Add job data
   	var jobId = parseInt(req.params.jobId);
-	var job = _.where(data.jobs, {id: jobId});
+	var job = _.where(data.jobs, {jobId: jobId});
 	pageData.job = job[0];
 
   	res.render('job-add', pageData);
