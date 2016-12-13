@@ -66,9 +66,7 @@ router.get('/user-:userId/job-list', function(req, res, next) {
 
 router.get('/user-:userId', function(req, res, next) {
 
-	//var pageData = {};
-
-	var pageData = require('../data/data.json');
+	var pageData = {};
 
 	pageData.currentUserId = parseInt(req.params.userId);
 
@@ -79,37 +77,53 @@ router.get('/user-:userId', function(req, res, next) {
 	    
   	}).exec()
 
+	// Get user data from db
+  	.then(function(user){
+
+		User.find(function(err, users){
+
+			pageData.users = users;
+		    
+	  	})
+
+  	})
+
 	// Get event history from database
-	Event.find(function(err, events){
 
-		// Add event history to page data
-    	pageData.history = _.sortBy(events, 'jobDate').reverse();
+  	.then(function(){
 
-    	// Create a job history grouped by user
-		var jobsByUser = _(events).groupBy('userId');
+		Event.find(function(err, events){
 
-		// For each user in the job history
-		_.each(jobsByUser, function(user, key) {
+			// Add event history to page data
+	    	pageData.history = _.sortBy(events, 'jobDate').reverse();
 
-			// For each job event in their history
-			var userPoints = _.reduce(user, function(num, event){
+	    	// Create a job history grouped by user
+			var jobsByUser = _(events).groupBy('userId');
 
-				// Find the points associated with that job
-				var jobPoints = _.find(pageData.jobs, {jobId: parseInt(event.jobId)}).jobPoints
+			// For each user in the job history
+			_.each(jobsByUser, function(user, key) {
 
-				// Sum the points for that user
-				return jobPoints + num;
+				// For each job event in their history
+				var userPoints = _.reduce(user, function(num, event){
 
-			}, 0);
+					// Find the points associated with that job
+					var jobPoints = _.find(pageData.jobs, {jobId: parseInt(event.jobId)}).jobPoints
 
-			// Add total points to each user in page data
-			_.findWhere(pageData.users, {userId: parseInt(key)}).userPoints = userPoints;
+					// Sum the points for that user
+					return jobPoints + num;
 
-		});
+				}, 0);
 
-	    res.render('user', pageData);
+				// Add total points to each user in page data
+				_.findWhere(pageData.users, {userId: parseInt(key)}).userPoints = userPoints;
 
-  	});
+			});
+
+		    res.render('user', pageData);
+
+	  	});
+
+	});
 
 });
 
