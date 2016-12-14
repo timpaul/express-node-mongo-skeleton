@@ -15,7 +15,7 @@ block content
         if history[0]
             h2.centre Delete specific events
         table
-            for event in history
+            for event in events
                 - var date = Sugar.Date.format(event.jobDate, '%x %X')
                 tr
                     td #{event.userName} 

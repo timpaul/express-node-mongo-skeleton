@@ -1,6 +1,7 @@
 var express = require('express'),
 	router = express.Router(),
 	mongoose = require('mongoose'),
+    Sugar = require('sugar'),
 	_ = require('underscore');
 
 var	Event = mongoose.model('events'),
@@ -62,6 +63,7 @@ router.get('/user-:userId/job-list', function(req, res, next) {
 });
 
 
+
 /* GET user page. */
 
 router.get('/user-:userId', function(req, res, next) {
@@ -72,39 +74,36 @@ router.get('/user-:userId', function(req, res, next) {
 
 	// Get job data from db
 	Job.find(function(err, jobs){
-
-		pageData.jobs = jobs;
-	    
+		pageData.jobs = jobs;	    
   	}).exec()
 
-	// Get user data from db
-  	.then(function(user){
+  	// Then get this weeks event data from db
+  	.then(function(jobs){
+
+		Event.find(function(err, events){
+			pageData.events = events;	    
+	  	}).
+			where('jobDate').gt(Sugar.Date.create('this Monday')).
+			sort('-jobDate').
+			exec()
+
+	 })
+
+	// Then get user data from db
+  	.then(function(events){
 
 		User.find(function(err, users){
 
 			pageData.users = users;
-		    
-	  	})
 
-  	})
+			// For each user in users
+			_.each(users, function(user, key) {
 
-	// Get event history from database
+				// Find the job events for that user
+				var userEvents = _.where(pageData.events, {userId: user.userId});
 
-  	.then(function(){
-
-		Event.find(function(err, events){
-
-			// Add event history to page data
-	    	pageData.history = _.sortBy(events, 'jobDate').reverse();
-
-	    	// Create a job history grouped by user
-			var jobsByUser = _(events).groupBy('userId');
-
-			// For each user in the job history
-			_.each(jobsByUser, function(user, key) {
-
-				// For each job event in their history
-				var userPoints = _.reduce(user, function(num, event){
+				// Sum the points from those events
+				var userPoints = _.reduce(userEvents, function(num, event){
 
 					// Find the points associated with that job
 					var jobPoints = _.find(pageData.jobs, {jobId: parseInt(event.jobId)}).jobPoints
@@ -115,15 +114,33 @@ router.get('/user-:userId', function(req, res, next) {
 				}, 0);
 
 				// Add total points to each user in page data
-				_.findWhere(pageData.users, {userId: parseInt(key)}).userPoints = userPoints;
+				_.findWhere(pageData.users, {userId: parseInt(user.userId)}).userPoints = userPoints;
 
 			});
 
-		    res.render('user', pageData);
+			console.log(pageData.users);
 
-	  	});
+	    	res.render('user', pageData);
 
-	});
+/*
+			// Delete users from db
+			User.remove({}).exec()
+
+			// Create users from data.json
+			.then(function(user){
+
+				User.create(pageData.users, function (err) {
+				    if (err) return res.send(500, { error: err });
+	    			res.render('user', pageData);
+				});
+
+			});
+*/
+			
+
+	  	})
+
+  	})
 
 });
 
