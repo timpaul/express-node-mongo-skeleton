@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var EventSchema = new mongoose.Schema({
     eventType : String,
-    jobId : Number,
+    eventId : Number,
     userId : Number,
   	eventDate: Date
 });

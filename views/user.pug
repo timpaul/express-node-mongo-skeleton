@@ -20,7 +20,7 @@ block content
                 for event in events
                     - var eventDate = Sugar.Date.relative(event.eventDate)
                     - var userName = _.find(users, {userId: event.userId}).userName
-                    - var jobTitle = _.find(jobs, {jobId: event.jobId}).jobTitle
+                    - var jobTitle = _.find(jobs, {jobId: event.eventId}).jobTitle
                     li.job-history__item #{userName} #{jobTitle}
                         span.date #{eventDate}
     - var currentUser = _.find(users, {userId: currentUserId});
