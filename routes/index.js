@@ -10,7 +10,7 @@ var	Event = mongoose.model('events'),
 
 // Load data
 
-var	data = require('../data/data.json');
+var	defaultData = require('../data/defaults.json');
 
 
 /* GET home page. */
@@ -83,8 +83,8 @@ router.get('/user-:userId', function(req, res, next) {
 		Event.find(function(err, events){
 			pageData.events = events;	    
 	  	}).
-			where('jobDate').gt(Sugar.Date.create('this Monday')).
-			sort('-jobDate').
+			where('eventDate').gt(Sugar.Date.create('this Monday')).
+			sort('-eventDate').
 			exec()
 
 	 })
@@ -100,7 +100,7 @@ router.get('/user-:userId', function(req, res, next) {
 			_.each(users, function(user, key) {
 
 				// Find the job events for that user
-				var userEvents = _.where(pageData.events, {userId: user.userId});
+				var userEvents = _.where(pageData.events, {userId: user.userId, eventType : "job"});
 
 				// Sum the points from those events
 				var userPoints = _.reduce(userEvents, function(num, event){
@@ -118,25 +118,7 @@ router.get('/user-:userId', function(req, res, next) {
 
 			});
 
-			console.log(pageData.users);
-
 	    	res.render('user', pageData);
-
-/*
-			// Delete users from db
-			User.remove({}).exec()
-
-			// Create users from data.json
-			.then(function(user){
-
-				User.create(pageData.users, function (err) {
-				    if (err) return res.send(500, { error: err });
-	    			res.render('user', pageData);
-				});
-
-			});
-*/
-			
 
 	  	})
 
@@ -152,12 +134,12 @@ router.get('/user-:userId/job-:jobId', function(req, res, next) {
 
 	// Add user data
   	var userId = parseInt(req.params.userId);
-	var user = _.where(data.users, {userId: userId});
+	var user = _.where(defaultData.users, {userId: userId});
 	pageData.user = user[0];
 
 	// Add job data
   	var jobId = parseInt(req.params.jobId);
-	var job = _.where(data.jobs, {jobId: jobId});
+	var job = _.where(defaultData.jobs, {jobId: jobId});
 	pageData.job = job[0];
 
   	res.render('job-add', pageData);
@@ -170,10 +152,10 @@ router.post('/add-job', function(req, res) {
 
     // Create new job event and save to db
     new Event({
+    	eventType : "job",
     	userId : req.body.userId,
     	jobId : req.body.jobId,
-    	jobTitle : req.body.jobTitle,
-    	jobDate : req.body.jobDate  
+    	eventDate : req.body.jobDate  
     })
     .save(function(err, job) {
         res.redirect('/user-' + job.userId);
@@ -185,17 +167,31 @@ router.post('/add-job', function(req, res) {
 /* GET admin page. */
 router.get('/admin', function(req, res, next) {
 
-	var pageData = data;
+  	var pageData = {};
 
-    // Get job history from database
-	Event.find(function(err, events){
+	// Get job data from db
+	Job.find(function(err, jobs){
+		pageData.jobs = jobs;	    
+  	}).exec()
 
-		// Add job history to page data
-    	pageData.history = _.sortBy(events, 'jobDate').reverse();
+  	// Then get event data from db
+  	.then(function(jobs){
 
-	    res.render('admin', pageData);
+		Event.find(function(err, events){
+			pageData.events = events;	    
+	  	}).exec()
 
-  	});
+	 })
+
+	// Then get user data from db
+  	.then(function(events){
+
+		User.find(function(err, users){
+			pageData.users = users;
+	    	res.render('admin', pageData);
+	  	})
+
+  	})
 
 });
 
@@ -230,7 +226,7 @@ router.get('/load-defaults', function(req, res, next) {
 
 	// Create users from data.json
 	.then(function(user){
-		User.create(data.users, function (err) {
+		User.create(defaultData.users, function (err) {
 		    if (err) return res.send(500, { error: err });
 		});
 	});
@@ -240,7 +236,7 @@ router.get('/load-defaults', function(req, res, next) {
 
 	// Create jobs from data.json
 	.then(function(job){
-		Job.create(data.jobs, function (err) {
+		Job.create(defaultData.jobs, function (err) {
 		    if (err) return res.send(500, { error: err });
 	    	res.redirect('/');
 		});

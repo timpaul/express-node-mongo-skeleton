@@ -18,10 +18,11 @@ block content
         if events[0]
             ul.job-history
                 for event in events
-                    - var date = Sugar.Date.relative(event.jobDate)
+                    - var eventDate = Sugar.Date.relative(event.eventDate)
                     - var userName = _.find(users, {userId: event.userId}).userName
-                    li.job-history__item #{userName} #{event.jobTitle}
-                        span.date #{date}
+                    - var jobTitle = _.find(jobs, {jobId: event.jobId}).jobTitle
+                    li.job-history__item #{userName} #{jobTitle}
+                        span.date #{eventDate}
     - var currentUser = _.find(users, {userId: currentUserId});
     if currentUser.userAdmin
         br

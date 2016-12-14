@@ -1,10 +1,10 @@
 var mongoose = require('mongoose');
 
 var EventSchema = new mongoose.Schema({
+    eventType : String,
     jobId : Number,
-    jobTitle : String,
     userId : Number,
-  	jobDate: Date
+  	eventDate: Date
 });
 
 var UserSchema = new mongoose.Schema({
