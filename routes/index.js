@@ -8,9 +8,6 @@ var	Event = mongoose.model('events'),
 	Job = mongoose.model('jobs'),
 	User = mongoose.model('users');
 
-// Load data
-
-var	defaultData = require('../data/defaults.json');
 
 
 /* GET home page. */
@@ -34,11 +31,9 @@ router.get('/', function(req, res, next) {
 
 
 /* GET user job list page. */
-
 router.get('/user-:userId/job-list', function(req, res, next) {
 
 	var pageData = {};
-
 
 	// Get user data from db
 	User.find(function(err, users){
@@ -65,7 +60,6 @@ router.get('/user-:userId/job-list', function(req, res, next) {
 
 
 /* GET user page. */
-
 router.get('/user-:userId', function(req, res, next) {
 
 	var pageData = {};
@@ -130,19 +124,28 @@ router.get('/user-:userId', function(req, res, next) {
 /* GET add job page. */
 router.get('/user-:userId/job-:jobId', function(req, res, next) {
 
-	var pageData = {};
+  	var pageData = {};
 
-	// Add user data
-  	var userId = parseInt(req.params.userId);
-	var user = _.where(defaultData.users, {userId: userId});
-	pageData.user = user[0];
+	// Get user data from db
+	User.find(function(err, users){
 
-	// Add job data
-  	var jobId = parseInt(req.params.jobId);
-	var job = _.where(defaultData.jobs, {jobId: jobId});
-	pageData.job = job[0];
+		var userId = parseInt(req.params.userId);
+		var user = _.find(users, {userId: userId});
 
-  	res.render('job-add', pageData);
+		pageData.user = user;
+	    
+  	}).exec()
+
+	// Get job data from db
+	Job.find(function(err, jobs){
+  		var jobId = parseInt(req.params.jobId);
+		var job = _.find(jobs, {jobId: jobId})
+		pageData.job = job;
+
+		// Render page
+		res.render('job-add', pageData);
+	    
+  	});
 
 });
 
@@ -220,6 +223,9 @@ router.get('/delete/all', function(req, res, next) {
 
 /* Load defaults */
 router.get('/load-defaults', function(req, res, next) {
+
+	// Load default data
+	var	defaultData = require('../data/defaults.json');
 
 	// Delete users from db
 	User.remove({}).exec()

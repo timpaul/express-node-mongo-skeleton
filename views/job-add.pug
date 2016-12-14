@@ -4,10 +4,7 @@ block content
     mixin hiddenFields
         input(type="hidden", name="userId", value=user.userId)
         input(type="hidden", name="jobId", value=job.jobId)
-        input(type="hidden", name="jobTitle", value=job.jobTitle)
     .app-header
-        - var point = "points"
-        - if (job.jobPoints === 1) point = "point" 
         h1.centre When did you do it?
     .main
         h1.centre I #{job.jobTitle}
