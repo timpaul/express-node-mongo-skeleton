@@ -9,6 +9,27 @@ var	Event = mongoose.model('events'),
 	User = mongoose.model('users');
 
 
+// Define user milestones
+var userStarMilestones = [10, 50, 100, 200, 500, 1000, 2000, 5000, 10000];
+
+
+// Function: nearestLowerNumber
+// Find the highest number in an array that's lower than the target
+
+function nearestLowerNumber(target, array){
+
+	var sortedArray = _.sortBy(array, function(num) {
+    	return -num;
+	}); 
+
+	var result = _.find(sortedArray, function(num){ 
+		return num <= target; 
+	});
+
+	return result;
+
+} 
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -26,8 +47,6 @@ router.get('/', function(req, res, next) {
   	});
 
 });
-
-
 
 
 /* GET user job list page. */
