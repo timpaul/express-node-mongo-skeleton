@@ -34,25 +34,27 @@ router.get('/', function(req, res, next) {
 router.get('/user-:userId/job-list', function(req, res, next) {
 
 	var pageData = {};
+	var userId = parseInt(req.params.userId);
 
 	// Get user data from db
-	User.find(function(err, users){
+	User.findOne({userId: userId}).exec()
 
-		var userId = parseInt(req.params.userId);
-		var user = _.find(users, {userId: userId});
+  	.then(function(user){
 
-		pageData.user = user;
-	    
-  	}).exec()
+  		// Add user to page data
+	  	pageData.user = user;
 
-	// Get job data from db
-	Job.find(function(err, jobs){
+		// Get jobs from db
+		Job.find(function(err, jobs){
 
-		pageData.jobs = jobs;
+			// Add jobs to page data
+			pageData.jobs = jobs;
 
-		// Render page
-		res.render('job-list', pageData);
-	    
+			// Render page
+			res.render('job-list', pageData);
+		    
+	  	});
+
   	});
 
 });
@@ -125,26 +127,26 @@ router.get('/user-:userId', function(req, res, next) {
 router.get('/user-:userId/job-:jobId', function(req, res, next) {
 
   	var pageData = {};
+  	var userId = parseInt(req.params.userId);
 
-	// Get user data from db
-	User.find(function(err, users){
+  	// Get user data from db
+	User.findOne({userId: userId}).exec()
 
-		var userId = parseInt(req.params.userId);
-		var user = _.find(users, {userId: userId});
+	.then(function(user){
 
 		pageData.user = user;
-	    
-  	}).exec()
 
-	// Get job data from db
-	Job.find(function(err, jobs){
-  		var jobId = parseInt(req.params.jobId);
-		var job = _.find(jobs, {jobId: jobId})
-		pageData.job = job;
+		// Get job data from db
+		Job.find(function(err, jobs){
+	  		var jobId = parseInt(req.params.jobId);
+			var job = _.find(jobs, {jobId: jobId})
+			pageData.job = job;
 
-		// Render page
-		res.render('job-add', pageData);
-	    
+			// Render page
+			res.render('job-add', pageData);
+		    
+	  	});
+
   	});
 
 });
