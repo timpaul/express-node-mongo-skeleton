@@ -11,6 +11,7 @@ var UserSchema = new mongoose.Schema({
     userId : Number,
     userName : String,
     userPoints : Number,
+    userMilestones : Array,
     userAdmin : Boolean
 });
 

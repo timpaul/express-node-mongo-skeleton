@@ -28,7 +28,7 @@ function nearestLowerNumber(target, array){
 
 	return result;
 
-} 
+}
 
 
 /* GET home page. */
