@@ -10,25 +10,11 @@ var	Event = mongoose.model('events'),
 
 
 // Define user milestones
-var userStarMilestones = [10, 50, 100, 200, 500, 1000, 2000, 5000, 10000];
+var userStarMilestones = [0, 10, 50, 100, 200, 500, 1000, 2000, 5000, 10000];
 
 
-// Function: nearestLowerNumber
-// Find the highest number in an array that's lower than the target
 
-function nearestLowerNumber(target, array){
 
-	var sortedArray = _.sortBy(array, function(num) {
-    	return -num;
-	}); 
-
-	var result = _.find(sortedArray, function(num){ 
-		return num <= target; 
-	});
-
-	return result;
-
-}
 
 
 /* GET home page. */
@@ -80,6 +66,9 @@ router.get('/user-:userId/job-list', function(req, res, next) {
 
 
 
+
+
+
 /* GET user page. */
 router.get('/user-:userId', function(req, res, next) {
 
@@ -92,13 +81,13 @@ router.get('/user-:userId', function(req, res, next) {
 		pageData.jobs = jobs;	    
   	}).exec()
 
-  	// Then get this weeks event data from db
+  	// Then get event data from db
   	.then(function(jobs){
 
 		Event.find(function(err, events){
 			pageData.events = events;	    
 	  	}).
-			where('eventDate').gt(Sugar.Date.create('this Monday')).
+			//where('eventDate').gt(Sugar.Date.create('this Monday')).
 			sort('-eventDate').
 			exec()
 
@@ -114,22 +103,30 @@ router.get('/user-:userId', function(req, res, next) {
 			// For each user in users
 			_.each(users, function(user, key) {
 
-				// Find the job events for that user
-				var userEvents = _.where(pageData.events, {userId: user.userId, eventType : "job"});
+				var userId = parseInt(user.userId);
 
-				// Sum the points from those events
-				var userPoints = _.reduce(userEvents, function(num, event){
+				// Get job events for that user
+				var userJobEvents = _.where(pageData.events, {userId: user.userId, eventType : "job"});
 
-					// Find the points associated with that job
-					var jobPoints = _.find(pageData.jobs, {jobId: parseInt(event.eventId)}).jobPoints
+				// Get job events for that user for this week
+				var userJobEventsThisWeek = _.filter(userJobEvents, function(event){
+					return event.eventDate > Sugar.Date.beginningOfISOWeek(new Date());
+				});
 
-					// Sum the points for that user
-					return jobPoints + num;
+				// Total points for that user
+				var userPoints = sumPoints(userJobEvents, pageData.jobs);
 
-				}, 0);
+				// Total points for that user this week
+				var userPointsThisWeek = sumPoints(userJobEventsThisWeek, pageData.jobs);
 
-				// Add total points to each user in page data
-				_.findWhere(pageData.users, {userId: parseInt(user.userId)}).userPoints = userPoints;
+				console.log("Total points: " + userPoints);
+				console.log("Weekly points: " + userPointsThisWeek);
+
+				// Add user points to page data
+				user = _.findWhere(pageData.users, {userId: userId});
+				user.userPoints = userPoints;
+				user.userPointsThisWeek = userPointsThisWeek;
+
 
 			});
 
@@ -174,16 +171,71 @@ router.get('/user-:userId/job-:jobId', function(req, res, next) {
 /* POST add job. */
 router.post('/add-job', function(req, res) {
 
-    // Create new job event and save to db
-    new Event({
-    	eventType : "job",
-    	userId : req.body.userId,
+    var userId = req.body.userId;
+
+    // Add the job event to the db
+   	Event.create({
+		eventType : "job",
+    	userId : userId,
     	eventId : req.body.jobId,
-    	eventDate : req.body.jobDate  
+    	eventDate : req.body.jobDate   
     })
-    .save(function(err, job) {
-        res.redirect('/user-' + job.userId);
-    });
+
+   	// Then...
+   	.then(function(){
+   		
+   		// Get the user data from the db
+		return User.findOne({userId : userId})
+
+   	})
+
+  	// Then...
+  	.then(function(user){
+
+  		// Get job event data from db
+	    Event.find({userId: userId, eventType : "job"}, function(err, events) {
+
+	    	// Get job data from db
+	    	Job.find(function(err, jobs){
+
+		    	// Get the total points for that user
+				var userPoints = sumPoints(events, jobs);
+
+				// Find current milestone
+				var milestone = nearestLowerNumber(userPoints, userStarMilestones)
+
+				console.log("Points: " + userPoints)
+				console.log("Last milestone: " + user.lastMilestone)
+				console.log("Current milestone: " + milestone)
+
+				// If the current milestone is bigger than the last one
+				if (milestone - 1 > user.lastMilestone - 1){
+
+					// Update the last one to the current one
+					User.findOneAndUpdate(
+						{ userId : userId }, 
+						{ $set: {"lastMilestone" : milestone} }
+					)
+
+			    	// Add a milestone event to the db
+					.then(function(){
+					   	Event.create({
+							eventType : "milestone",
+					    	userId : userId,
+					    	eventId : milestone,
+					    	eventDate : new Date()   
+					    })				
+					})
+
+				}
+
+	    	})
+
+	    })
+
+	})
+
+	.then(res.redirect('/user-' + userId))
 
 });
 
@@ -272,6 +324,48 @@ router.get('/load-defaults', function(req, res, next) {
 });
 
 
+
+// =============== FUNCTIONS =============== //
+
+
+
+function nearestLowerNumber(target, array){
+
+	// Return the number in an array that's closest to, 
+	// but lower than a target number. Used for figuring 
+	// out what your last milestone was.
+
+	var sortedArray = _.sortBy(array, function(num) {
+    	return -num;
+	}); 
+
+	var result = _.find(sortedArray, function(num){ 
+		return num <= target; 
+	});
+
+	return result;
+
+}
+
+
+function sumPoints(events, jobs){
+
+	
+	// Returns the total stars earned from an array of events
+
+	// For each event in the array
+	var points = _.reduce(events, function(num, event){
+
+		// Find the star value associated with that event
+		var jobPoints = _.find(jobs, {jobId: parseInt(event.eventId)}).jobPoints
+
+		// Add it to the running total
+		return jobPoints + num;
+
+	}, 0);
+
+	return points;
+}
 
 
 module.exports = router;

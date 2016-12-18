@@ -10,7 +10,7 @@ block content
             .users
                 for user in users
                     .user
-                        .points= user.userPoints
+                        .points= user.userPointsThisWeek
                         .name= user.userName                       
         ul.menu
                 li.menu__item                  
@@ -20,9 +20,17 @@ block content
                 for event in events
                     - var eventDate = Sugar.Date.relative(event.eventDate)
                     - var userName = _.find(users, {userId: event.userId}).userName
-                    - var jobTitle = _.find(jobs, {jobId: event.eventId}).jobTitle
-                    li.job-history__item #{userName} #{jobTitle}
-                        span.date #{eventDate}
+                    - var eventType = event.eventType
+
+                    if event.eventType == "milestone"
+                        - var eventTitle = "has earned " + event.eventId + " stars so far!"
+                        li.job-history__item.milestone #{userName} #{eventTitle}
+
+                    else
+                        - var eventTitle = _.find(jobs, {jobId: event.eventId}).jobTitle
+                        li.job-history__item #{userName} #{eventTitle}
+                            span.date #{eventDate}
+
     - var currentUser = _.find(users, {userId: currentUserId});
     if currentUser.userAdmin
         br

@@ -25,8 +25,8 @@
 		{"jobId": 22, "jobPoints": 1, "jobTitle": "cleaned Boris's table"}
 	],
 	"users": [
-		{"userId": 1, "userName": "Tim", "userPoints": 0, "userMilestones" : [], "userAdmin": true}, 
-		{"userId": 2, "userName": "Karen", "userPoints": 0, "userMilestones" : [], "userAdmin": false}, 
-		{"userId": 3, "userName": "Alice", "userPoints": 0, "userMilestones" : [], "userAdmin": false}
+		{"userId": 1, "userName": "Tim", "userPoints": 0, "lastMilestone" : 0, "userAdmin": true}, 
+		{"userId": 2, "userName": "Karen", "userPoints": 0, "lastMilestone" : 0, "userAdmin": false}, 
+		{"userId": 3, "userName": "Alice", "userPoints": 0, "lastMilestone" : 0, "userAdmin": false}
 	]
 }

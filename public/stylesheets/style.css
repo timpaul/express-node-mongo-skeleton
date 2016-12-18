@@ -163,6 +163,14 @@ button:hover{
 	border: none;
 }
 
+.job-history__item.milestone{
+	background: url(/star3.png) no-repeat 97% 6px;
+    background-size: 29px;
+    font-weight: bold;
+    color: #e59700;
+}
+
+
 table{
 	width: 100%;
 	font-size: 14px;
