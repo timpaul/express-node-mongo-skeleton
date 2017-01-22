@@ -1,5 +1,10 @@
 express-node-mongo-skeleton
 ======================
+
+- Run mongo server: `mongod`
+- Run app: `npm start`
+- Go to http://localhost:3000/
+
 express-node-mongo-skeleton was made to have a simple skeleton for a completed Web App ready to go for demonstration purposes and learning how to build CRUD & REST operations into a Node.js Web App. This is the final example that is demonstrated in [How to Create a Complete Express.js + Node.js + MongoDB CRUD and REST Skeleton](https://www.airpair.com/javascript/complete-expressjs-nodejs-mongodb-crud-skeleton)
 
 ## Installation

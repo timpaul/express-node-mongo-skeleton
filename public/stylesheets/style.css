@@ -243,3 +243,9 @@ table tr td{
     color: #AAA;
     padding-top: 12px;
 }
+
+.heading{
+	margin-top: 48px;
+	font-weight: bold;
+	font-size: 24px;
+}
