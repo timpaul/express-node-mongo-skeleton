@@ -10,7 +10,7 @@ var	Event = mongoose.model('events'),
 
 
 // Define user milestones
-var userStarMilestones = [0, 10, 50, 100, 200, 500, 1000, 2000, 5000, 10000];
+var userStarMilestones = [0, 10, 20, 50, 100, 150, 200, 250, 500, 750, 1000, 1500, 2000, 3000, 4000, 5000, 10000];
 
 
 
@@ -86,10 +86,9 @@ router.get('/user-:userId', function(req, res, next) {
 
 		Event.find(function(err, events){
 			pageData.events = events;	    
-	  	}).
-			//where('eventDate').gt(Sugar.Date.create('this Monday')).
-			sort('-eventDate').
-			exec()
+	  	})
+	  		.sort('-eventDate')
+	  		.exec()
 
 	 })
 
@@ -204,9 +203,9 @@ router.post('/add-job', function(req, res) {
 				// Find current milestone
 				var milestone = nearestLowerNumber(userPoints, userStarMilestones)
 
-				console.log("Points: " + userPoints)
-				console.log("Last milestone: " + user.lastMilestone)
-				console.log("Current milestone: " + milestone)
+				//console.log("Points: " + userPoints)
+				//console.log("Last milestone: " + user.lastMilestone)
+				//console.log("Current milestone: " + milestone)
 
 				// If the current milestone is bigger than the last one
 				if (milestone - 1 > user.lastMilestone - 1){
@@ -219,13 +218,19 @@ router.post('/add-job', function(req, res) {
 
 			    	// Add a milestone event to the db
 					.then(function(){
-					   	Event.create({
+					   	return Event.create({
 							eventType : "milestone",
 					    	userId : userId,
 					    	eventId : milestone,
 					    	eventDate : new Date()   
 					    })				
 					})
+
+					.then(res.redirect('/user-' + userId + '/milestone-' + milestone))
+
+				} else {
+
+					res.redirect('/user-' + userId)
 
 				}
 
@@ -235,7 +240,18 @@ router.post('/add-job', function(req, res) {
 
 	})
 
-	.then(res.redirect('/user-' + userId))
+	
+
+});
+
+/* GET milestone congrats page. */
+router.get('/user-:userId/milestone-:milestone', function(req, res, next) {
+
+	var pageData = {};
+	pageData.userId = parseInt(req.params.userId);
+	pageData.milestone = parseInt(req.params.milestone);
+
+	res.render('milestone', pageData);
 
 });
 
@@ -349,7 +365,6 @@ function nearestLowerNumber(target, array){
 
 
 function sumPoints(events, jobs){
-
 	
 	// Returns the total stars earned from an array of events
 
